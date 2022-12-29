@@ -23,18 +23,6 @@ type Product struct {
 // defining a type, to attach the methods onto it. We can call it the model of out database.
 type Products []*Product
 
-// this function Encodes the data into the response writer
-func (p *Products) ToJSON(rw http.ResponseWriter) error {
-	jsonEncoder := json.NewEncoder(rw)
-	return jsonEncoder.Encode(p)
-}
-
-// This function Decodes the data from request object
-func (p *Product) FromJSON(r io.Reader) error {
-	jsonDecoder := json.NewDecoder(r)
-	return jsonDecoder.Decode(p)
-}
-
 // This is used to have an instance anywhere.
 func GetData() Products {
 	return productList
@@ -45,7 +33,7 @@ func AddData(p *Product) {
 	productList = append(productList, p)
 }
 
-func UpdateProduct(id int, updatedProduct Product) error {
+func UpdateProduct(id int, updatedProduct *Product) error {
 	// find the product to be updated
 	prod, index, err := findProduct(id)
 
@@ -53,8 +41,20 @@ func UpdateProduct(id int, updatedProduct Product) error {
 		return err
 	}
 	updatedProduct.ID = prod.ID
-	productList[index] = prod
+	productList[index] = updatedProduct
 	return nil
+}
+
+// this function Encodes the data into the response writer
+func (p *Products) ToJSON(rw http.ResponseWriter) error {
+	jsonEncoder := json.NewEncoder(rw)
+	return jsonEncoder.Encode(p)
+}
+
+// This function Decodes the data from request object
+func (p *Product) FromJSON(r io.Reader) error {
+	jsonDecoder := json.NewDecoder(r)
+	return jsonDecoder.Decode(p)
 }
 
 var ErrProductNotFound = fmt.Errorf("Product not found")
