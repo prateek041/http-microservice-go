@@ -24,4 +24,6 @@ A route is a matching between a "pattern" and what "handler" to call when the pa
 
 A pattern can be many things, a URL path, an HTTP method, a HOST name etc. all these are handled seperately using methods attached to route struct.
 
-Create the middleware and attach it to the (routers). It first runs the middleware present in the Use (thing) and then runs the handler
+Create the middleware and attach it to the (routers). It first runs the middleware present in the Use (thing) and then runs the handler.
+
+This is not finished, refactoring in the learning docs needed.
